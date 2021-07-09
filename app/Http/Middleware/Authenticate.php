@@ -36,9 +36,9 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
         if ($this->auth->guard($guard)->guest()) {
-            return response()->json([
-                "message" => "Not found!"
-            ], 404);
+            return $request->wantsJson() ?
+                    response()->json('', 404) : 
+                    response(view('404'), 404);
         }
         return $next($request);
     }
