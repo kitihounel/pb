@@ -2,13 +2,21 @@
 
 Prescription Book backend
 
+## Database Driver
+
+We are using a SQLite database. So make sure that the PDO SQLite driver is installed.
+
+```bash
+sudo apt install php-sqlite3
+```
+
 ## Add Common Artisan Commands to Lumen
 
 We use Lumen Generator, https://github.com/flipboxstudio/lumen-generator.
 
 ### Installation
 
-```
+```bash
 composer require flipbox/lumen-generator
 ```
 
@@ -16,8 +24,14 @@ composer require flipbox/lumen-generator
 
 Inside your bootstrap/app.php file, add:
 
-```
+```php
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+```
+
+## Set Application Key
+
+```bash
+php artisan key:generate
 ```
 
 ## Laravel IDE Helper
@@ -26,7 +40,7 @@ Laravel IDE Helper can also work with Lumen after some tweaks.
 
 ### Installation
 
-```
+```bash
 composer require --dev barryvdh/laravel-ide-helper
 ```
 
@@ -35,7 +49,7 @@ package on which `laravel-ide-helper` depends. Without that, it won't work. The 
 is a stub from the `composer.json`. Don't forget to add `league/flysystem` as a development
 package.
 
-```
+```json
 "require-dev": {
   "flipbox/lumen-generator": "^8.2",
   "league/flysystem": "^1.1",
@@ -48,7 +62,7 @@ package.
 
 Then update your packages.
 
-```
+```bash
 composer update
 ```
 
@@ -69,7 +83,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 
 Then in `app/Providers/AppServiceProvider`, register `laravel-ide-helper` when in dev mode.
 
-```
+```php
 if ($this->app->environment() !== 'production') {
     $this->app->register(
         \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class

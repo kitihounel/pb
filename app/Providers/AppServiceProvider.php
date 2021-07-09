@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
         /*
         | For Laravel IDE helper
         */
-        if ($this->app->environment() !== 'production') {
+        if ($this->app->environment('local', 'debug', 'dev')) {
             $this->app->register(
                 \Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class
             );

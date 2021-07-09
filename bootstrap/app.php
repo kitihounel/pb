@@ -122,4 +122,12 @@ $app->router->group([
 
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 
+/*
+|--------------------------------------------------------------------------
+| Anik FormRequest
+|--------------------------------------------------------------------------
+*/
+
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
+
 return $app;
