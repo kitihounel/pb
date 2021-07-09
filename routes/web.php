@@ -16,3 +16,11 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function() use ($router) {
+    $router->get('/doctors', 'Api\DoctorController@index');
+    $router->post('/doctors', 'Api\DoctorController@create');
+    $router->get('/doctors/{id}', 'Api\DoctorController@show');
+    $router->put('/doctors/{id}', 'Api\Doctorontroller@update');
+    $router->delete('/doctors/{id}', 'Api\DoctorController@destroy');
+});
