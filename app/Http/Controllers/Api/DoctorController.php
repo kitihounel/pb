@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDoctorRequest;
 use App\Models\Doctor;
 
 class DoctorController extends Controller
@@ -14,11 +15,6 @@ class DoctorController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $page = $request->query('page');
@@ -34,69 +30,33 @@ class DoctorController extends Controller
         return toCamelKeys($doctors->toArray());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(StoreDoctorRequest $request)
     {
-        //
+        $data = $request->validated();
+        $doctor = Doctor::create($data);
+
+        return response($doctor, 201);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function show(int $id)
     {
-        //
+        return Doctor::findOrFail($id);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(StoreDoctorRequest $request, int $id)
     {
-        //
+        $doctor = Doctor::findOrFail($id);
+        $data = $request->validated();
+        $doctor->update($data);
+
+        return response($doctor, 202);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function destroy(int $id)
     {
-        //
-    }
+        $doctor = Doctor::findOrFail($id);
+        $doctor->delete();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->setStatusCode(204);
     }
 }

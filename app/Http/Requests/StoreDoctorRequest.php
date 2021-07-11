@@ -24,10 +24,10 @@ class StoreDoctorRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => ['string', 'required', 'max:63'],
-            'speciality' => ['string', 'required', 'max:63'],
-            'number' => ['string', 'required', 'max:31'],
-            'contact' => ['string', 'required', 'max:31']
+            'name' => ['string', 'required', 'max:255'],
+            'speciality' => ['string', 'required', 'max:255'],
+            'number' => ['string', 'required', 'max:255'],
+            'contact' => ['string', 'required', 'max:255']
         ];
     }
 }
