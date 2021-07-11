@@ -19,9 +19,19 @@ class DoctorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Doctor::all();
+        $page = $request->query('page');
+        if ($page && !preg_match('/^[1-9][\d]*$/', $page))
+            abort(404);
+
+        $doctors = Doctor::orderBy('name')->simplePaginate();
+
+        // This avoids navigation to invalid pages.
+        if ($page && intval($page) > $doctors->lastPage())
+            abort(404);
+
+        return toCamelKeys($doctors->toArray());
     }
 
     /**

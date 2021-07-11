@@ -104,3 +104,62 @@ Commit your changes before running the following to avoid that the two files bei
 php artisan ide-helper:generate
 php artisan ide-helper:models # You need a working db connection for this
 ```
+
+## Add Helper Functions
+
+Create a file `app/helpers.php` and modify your `composer.json` file to add the `files` entry
+to `autoload` section.
+
+```json
+{
+    "autoload": {
+        "files": [
+            "path/to/helpers.php"
+        ]
+    }
+}
+```
+
+Then run:
+
+```bash
+composer dump-autoload
+```
+
+## Eloquence
+
+Install it with
+
+```
+composer require kirkbushell/eloquence
+```
+
+Next, add the eloquence service provider to your `bootstrap/app.php` file:
+
+```php
+$app->register(\Eloquence\EloquenceServiceProvider::class);
+```
+
+Finally, put the following line in your models and that's it.
+
+```php
+use \Eloquence\Behaviours\CamelCasing;
+```
+
+
+## Form Requests
+
+Lumen doesn't have any FormRequest class like Laravel. The package `anik/form-request`
+will let you do that.
+
+1. Install the package by running
+
+```bash
+composer require anik/form-request
+```
+
+2. Register `\Anik\Form\FormRequestServiceProvider::class` to your `bootstrap/app.php` as a provider.
+
+```php
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
+```

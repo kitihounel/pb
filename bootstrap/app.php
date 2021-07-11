@@ -72,10 +72,6 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
@@ -95,7 +91,11 @@ $app->register(App\Providers\AppServiceProvider::class);
 
 $app->register(App\Providers\AuthServiceProvider::class);
 
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(\Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
+
+$app->register(\Eloquence\EloquenceServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -113,21 +113,5 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
-/*
-|--------------------------------------------------------------------------
-| Flipbox Lumen generator
-|--------------------------------------------------------------------------
-*/
-
-$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-
-/*
-|--------------------------------------------------------------------------
-| Anik FormRequest
-|--------------------------------------------------------------------------
-*/
-
-$app->register(\Anik\Form\FormRequestServiceProvider::class);
 
 return $app;
