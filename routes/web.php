@@ -20,7 +20,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/doctors', 'Api\DoctorController@index');
     $router->post('/doctors', 'Api\DoctorController@store');
-    $router->get('/doctors/{id}', 'Api\DoctorController@show');
-    $router->put('/doctors/{id}', 'Api\Doctorontroller@update');
-    $router->delete('/doctors/{id}', 'Api\DoctorController@destroy');
+    $router->get('/doctors/{doctor}', 'Api\DoctorController@show');
+    $router->put('/doctors/{doctor}', 'Api\Doctorontroller@update');
+    $router->delete('/doctors/{doctor}', 'Api\DoctorController@destroy');
 });

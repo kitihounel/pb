@@ -38,23 +38,21 @@ class DoctorController extends Controller
         return response($doctor, 201);
     }
 
-    public function show(int $id)
+    public function show(Doctor $doctor)
     {
-        return Doctor::findOrFail($id);
+        return $doctor;
     }
 
-    public function update(StoreDoctorRequest $request, int $id)
+    public function update(StoreDoctorRequest $request, Doctor $doctor)
     {
-        $doctor = Doctor::findOrFail($id);
         $data = $request->validated();
         $doctor->update($data);
 
         return response($doctor, 202);
     }
 
-    public function destroy(int $id)
+    public function destroy(Doctor $doctor)
     {
-        $doctor = Doctor::findOrFail($id);
         $doctor->delete();
 
         return response()->setStatusCode(204);

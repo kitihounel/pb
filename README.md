@@ -2,6 +2,15 @@
 
 Prescription Book backend
 
+- [Database Driver](#database-driver)
+- [Add Common Artisan Commands to Lumen](#add-common-artisan-commands-to-lumen)
+- [Set Application Key](#set-application-key)
+- [Laravel IDE Helper](#laravel-ide-helper)
+- [Add Helper functions](#add-helper-functions)
+- [Eloquence](#eloquence)
+- [Route Model Binding](#route-model-binding)
+- [Form Requests](#form-requests)
+
 ## Database Driver
 
 We are using a SQLite database. So make sure that the PDO SQLite driver is installed.
@@ -146,11 +155,106 @@ Finally, put the following line in your models and that's it.
 use \Eloquence\Behaviours\CamelCasing;
 ```
 
+## Route Model Binding
+
+Lumen doesn't support `Route Model Binding` out of the box due to the fact that Lumen doesn't
+use the Illuminate router that Laravel uses. Instead, It uses FastRoute which is much faster.
+With this package, We add support for the powerful Route Model Binding while still benefit the
+speed of FastRoute in Lumen.
+
+### Installation
+
+```bash
+composer require mmghv/lumen-route-binding "^1.0"
+```
+
+### Usage
+
+Create a service provider that extends the package's one and place it in `app/Providers`:
+
+```bash
+php artisan make:provider RouteBindingServiceProvider
+```
+
+```php
+namespace App\Providers;
+
+use mmghv\LumenRouteBinding\RouteBindingServiceProvider as BaseServiceProvider;
+
+class RouteBindingServiceProvider extends BaseServiceProvider
+{
+    /**
+     * Boot the service provider
+     */
+    public function boot()
+    {
+        // The binder instance
+        $binder = $this->binder;
+
+        // Here we define our bindings
+    }
+}
+```
+
+Then register it in `bootstrap/app.php`.
+
+```php
+$app->register(App\Providers\RouteBindingServiceProvider::class);
+```
+
+Now we can define our bindings in the `boot` method.
+
+### Defining The Bindings
+
+There are three types of binding. Only explicit binding is described here. For the other types,
+read the package doc at https://github.com/mmghv/lumen-route-binding.
+
+We can explicitly bind a route wildcard name to a specific model using the `bind` method:
+
+```php
+$binder->bind('user', 'App\User');
+```
+
+This way, anywhere in our routes if the wildcard `{user}` is found, It will be resolved to
+the `User` model instance that corresponds to the wildcard value, so we can define our route like this:
+
+```php
+$app->get('profile/{user}', function(App\User $user) {
+    doSomething();
+});
+```
+
+Behind the scenes, the binder will resolve the model instance like this:
+
+```php
+$instance = new App\User;
+return $instance->where($instance->getRouteKeyName(), $value)->firstOrFail();
+```
+
+### Customizing The Key Name
+
+By default, it will use the model's ID column. Similar to Laravel, if you would like to use
+another column when retrieving a given model class, you may override the `getRouteKeyName`
+method on the Eloquent model :
+
+```php
+/**
+ * Get the route key for the model.
+ *
+ * @return string
+ */
+public function getRouteKeyName()
+{
+    return 'slug';
+}
+```
 
 ## Form Requests
 
 Lumen doesn't have any FormRequest class like Laravel. The package `anik/form-request`
 will let you do that.
+
+### Installation
 
 1. Install the package by running
 
@@ -163,3 +267,20 @@ composer require anik/form-request
 ```php
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
 ```
+
+### Usage
+
+1. Create a class that extends `Anik\Form\FormRequest` class.
+
+2. You must override `rules` method of the `Anik\Form\FormRequest` class. Define your validation rules in it.
+   Must return an array.
+
+3. You can define validation messages by overriding `messages` method. Default is `[]`.
+
+4. You can define custom pretty attribute names by overriding `attributes` method. Default is `[]`.
+
+5. You can override `authorize` method to define the authorization logic if the client is authorized to
+   submit the form. Must return a boolean value. Default is `true`. When returning `false`, it'll raise
+   `\Illuminate\Auth\Access\AuthorizationException` exception.
+
+For more doc, see the repo at https://github.com/ssi-anik/form-request.

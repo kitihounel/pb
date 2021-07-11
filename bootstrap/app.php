@@ -97,6 +97,8 @@ $app->register(\Anik\Form\FormRequestServiceProvider::class);
 
 $app->register(\Eloquence\EloquenceServiceProvider::class);
 
+$app->register(App\Providers\RouteBindingServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
