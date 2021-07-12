@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Models\Doctor;
+use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
@@ -15,6 +14,12 @@ class DoctorController extends Controller
         $this->middleware('auth');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $page = $request->query('page');
@@ -30,6 +35,12 @@ class DoctorController extends Controller
         return toCamelKeys($doctors->toArray());
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  App\Http\Requests\StoreDoctorRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(StoreDoctorRequest $request)
     {
         $data = $request->validated();
@@ -38,11 +49,24 @@ class DoctorController extends Controller
         return response($doctor, 201);
     }
 
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Doctor  $doctor
+     * @return \Illuminate\Http\Response
+     */
     public function show(Doctor $doctor)
     {
         return $doctor;
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  App\Http\Requests\StoreDoctorRequest  $request
+     * @param  \App\Models\Doctor  $doctor
+     * @return \Illuminate\Http\Response
+     */
     public function update(StoreDoctorRequest $request, Doctor $doctor)
     {
         $data = $request->validated();
@@ -51,6 +75,12 @@ class DoctorController extends Controller
         return response($doctor, 202);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Doctor  $doctor
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Doctor $doctor)
     {
         $doctor->delete();

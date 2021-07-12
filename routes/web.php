@@ -18,9 +18,15 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => '/api'], function() use ($router) {
-    $router->get('/doctors', 'Api\DoctorController@index');
-    $router->post('/doctors', 'Api\DoctorController@store');
-    $router->get('/doctors/{doctor}', 'Api\DoctorController@show');
-    $router->put('/doctors/{doctor}', 'Api\Doctorontroller@update');
-    $router->delete('/doctors/{doctor}', 'Api\DoctorController@destroy');
+    $router->get('/doctors',                'Api\DoctorController@index');
+    $router->post('/doctors',               'Api\DoctorController@store');
+    $router->get('/doctors/{doctor}',       'Api\DoctorController@show');
+    $router->put('/doctors/{doctor}',       'Api\DoctorController@update');
+    $router->delete('/doctors/{doctor}',    'Api\DoctorController@destroy');
+
+    $router->get('/drugs',              'Api\DrugController@index');
+    $router->post('/drugs',             'Api\DrugController@store');
+    $router->get('/drugs/{drug}',       'Api\DrugController@show');
+    $router->put('/drugs/{drug}',       'Api\DrugController@update');
+    $router->delete('/drugs/{drug}',    'Api\DrugController@destroy');
 });
