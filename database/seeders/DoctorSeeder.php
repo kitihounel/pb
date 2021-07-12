@@ -27,5 +27,17 @@ class DoctorSeeder extends Seeder
             'number' => '070-123-789',
             'contact' => '722 741 74 52',
         ]);
+        Doctor::create([
+            'name' => 'Dr Strange',
+            'speciality' => 'Chirurgy',
+            'number' => '074-173-789',
+            'contact' => '722 001 78 71',
+        ]);
+        Doctor::create([
+            'name' => 'Dr Ponytail',
+            'speciality' => 'Pediatry',
+            'number' => '025-98-965-6',
+            'contact' => '12 74 874 522',
+        ]);
     }
 }

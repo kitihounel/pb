@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDoctorRequest;
+use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class DoctorController extends Controller
 {
@@ -43,8 +45,8 @@ class DoctorController extends Controller
      */
     public function store(StoreDoctorRequest $request)
     {
-        $data = $request->validated();
-        $doctor = Doctor::create($data);
+        $validated = $request->validated();
+        $doctor = Doctor::create($validated);
 
         return response($doctor, 201);
     }
@@ -63,14 +65,21 @@ class DoctorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\StoreDoctorRequest  $request
+     * @param  App\Http\Requests\UpdateDoctorRequest  $request
      * @param  \App\Models\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreDoctorRequest $request, Doctor $doctor)
+    public function update(UpdateDoctorRequest $request, Doctor $doctor)
     {
-        $data = $request->validated();
-        $doctor->update($data);
+        $validated = $request->validated();
+
+        if (count($validated) == 0) {
+            return response()->json([
+                'message' => 'You must provide at least one field.'
+            ], 422);
+        }
+
+        $doctor->update($validated);
 
         return response($doctor, 202);
     }
@@ -85,6 +94,6 @@ class DoctorController extends Controller
     {
         $doctor->delete();
 
-        return response()->setStatusCode(204);
+        return response()->json(null, 204);
     }
 }

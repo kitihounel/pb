@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Anik\Form\FormRequest;
 
-class StoreDoctorRequest extends FormRequest
+class UpdateDoctorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class StoreDoctorRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'speciality' => ['required', 'string', 'max:255'],
-            'number' => ['required', 'string', 'max:255'],
-            'contact' => ['required', 'string', 'max:255']
+            'name' => ['nullable', 'string', 'max:255'],
+            'speciality' => ['nullable', 'string', 'max:255'],
+            'number' => ['nullable','string', 'max:255'],
+            'contact' => ['nullable','string', 'max:255']
         ];
     }
 }
