@@ -15,4 +15,9 @@ class Drug extends Model
         'price',
         'presentation'
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

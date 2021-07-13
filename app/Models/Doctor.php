@@ -10,4 +10,9 @@ class Doctor extends Model
     use CamelCasing;
 
     protected $guarded = [];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
 }

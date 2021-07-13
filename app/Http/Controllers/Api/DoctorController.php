@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Exceptions\NoDataSuppliedException;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
@@ -72,13 +73,11 @@ class DoctorController extends Controller
     public function update(UpdateDoctorRequest $request, Doctor $doctor)
     {
         $validated = $request->validated();
-
         if (count($validated) == 0) {
-            return response()->json([
-                'message' => 'You must provide at least one field.'
-            ], 422);
+            throw new NoDataSuppliedException(
+                'You must provide at least one field.'
+            );
         }
-
         $doctor->update($validated);
 
         return response($doctor, 202);

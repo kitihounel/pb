@@ -17,7 +17,7 @@ class CreateDrugsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('common_name');
-            $table->decimal('price', 10, 2)->default('1.00');
+            $table->decimal('price', 8, 2)->default('1.00');
             $table->string('presentation');
             $table->timestamps();
         });
