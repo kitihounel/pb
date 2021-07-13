@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Anik\Form\FormRequest;
 
-class StoreDrugRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class StoreDrugRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'inn' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'regex:/^\d{1,6}(.\d{0,2})?$/', 'between:1,999999.99'],
-            'presentation' => ['required', 'string', 'max:255']
+            'name' => ['nullable', 'string', 'max:255'],
+            'contact' => ['nullable', 'string', 'max:255'],
+            'sex' => ['nullable', 'string', 'min:1', 'max:1'],
+            'birthYear' => ['nullable', 'integer', 'min:1900', 'max:2100']
         ];
     }
 
@@ -39,7 +39,7 @@ class StoreDrugRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'inn' => 'INN',
+            'birthYear' => 'birth year',
         ];
     }
 }

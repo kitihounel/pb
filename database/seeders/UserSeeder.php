@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Kofi',
             'username' => 'kofi',
             'password' => Hash::make('password'),
-            'api_token' => Str::random(80)
+            'api_token' => str_repeat('abc', 27)
         ]);
     }
 }

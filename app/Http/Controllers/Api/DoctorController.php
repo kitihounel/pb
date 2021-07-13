@@ -8,7 +8,6 @@ use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class DoctorController extends Controller
 {
@@ -29,7 +28,7 @@ class DoctorController extends Controller
         if ($page && !preg_match('/^[1-9][\d]*$/', $page))
             abort(404);
 
-        $doctors = Doctor::orderBy('name')->simplePaginate();
+        $doctors = Doctor::orderBy('name')->paginate();
 
         // This avoids navigation to invalid pages.
         if ($page && intval($page) > $doctors->lastPage())

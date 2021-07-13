@@ -5,15 +5,15 @@ namespace App\Models;
 use Eloquence\Behaviours\CamelCasing;
 use Illuminate\Database\Eloquent\Model;
 
-class Drug extends Model
+class Customer extends Model
 {
     use CamelCasing;
 
     protected $fillable = [
         'name',
-        'inn',
-        'price',
-        'presentation'
+        'sex',
+        'contact',
+        'birth_year'
     ];
 
     protected $hidden = [

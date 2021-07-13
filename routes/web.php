@@ -29,4 +29,10 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/drugs/{drug}',       'Api\DrugController@show');
     $router->put('/drugs/{drug}',       'Api\DrugController@update');
     $router->delete('/drugs/{drug}',    'Api\DrugController@destroy');
+
+    $router->get('/customers',                  'Api\CustomerController@index');
+    $router->post('/customers',                 'Api\CustomerController@store');
+    $router->get('/customers/{customer}',       'Api\CustomerController@show');
+    $router->put('/customers/{customer}',       'Api\CustomerController@update');
+    $router->delete('/customers/{customer}',    'Api\CustomerController@destroy');
 });

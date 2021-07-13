@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDrugRequest;
-use App\Http\Requests\UpdateDrugRequest;
-use App\Models\Drug;
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
-class DrugController extends Controller
+class CustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,64 +22,66 @@ class DrugController extends Controller
         if ($page && !preg_match('/^[1-9][\d]*$/', $page))
             abort(404);
 
-        $drugs = Drug::orderBy('name')->paginate();
+        $customers = Customer::orderBy('name')->paginate();
 
         // This avoids navigation to invalid pages.
-        if ($page && intval($page) > $drugs->lastPage())
+        if ($page && intval($page) > $customers->lastPage())
             abort(404);
 
-        return toCamelKeys($drugs->toArray());
+        return toCamelKeys($customers->toArray());
     }
+
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\StoreDrugRequest  $request
+     * @param  \App\Http\Requests\StoreCustomerRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreDrugRequest $request)
+    public function store(StoreCustomerRequest $request)
     {
         $validated = toSnakeKeys($request->validated());
-        $drug = Drug::create($validated);
 
-        return response($drug, 201);
+        return response(
+            Customer::create($validated),
+            201
+        );
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Drug  $drug
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function show(Drug $drug)
+    public function show(Customer $customer)
     {
-        return $drug;
+        return $customer;
     }
 
-    /**
+   /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\UpdateDrugRequest  $request
-     * @param  \App\Models\Drug  $drug
+     * @param  \App\Http\Requests\UpdateCustomerRequest  $request
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateDrugRequest $request, Drug $drug)
+    public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $validated = toSnakeKeys($request->validated());
-        $drug->update($validated);
+        $customer->update(toSnakeKeys($request->validated()));
 
-        return response($drug, 202);
+        return response($customer, 202);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Drug  $drug
+     * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Drug $drug)
+    public function destroy(Customer $customer)
     {
-        $drug->delete();
+        $customer->delete();
 
         return response()->json(null, 204);
     }

@@ -17,5 +17,6 @@ class RouteBindingServiceProvider extends BaseServiceProvider
         $binder->bind('user', 'App\Models\User');
         $binder->bind('doctor', 'App\Models\Doctor');
         $binder->bind('drug', 'App\Models\Drug');
+        $binder->bind('customer', 'App\Models\Customer');
     }
 }
