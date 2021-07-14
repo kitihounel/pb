@@ -20,4 +20,8 @@ class Customer extends Model
         'created_at',
         'updated_at'
     ];
+
+    protected $casts = [
+        'birth_year' => 'int'
+    ];
 }

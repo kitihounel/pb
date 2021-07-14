@@ -26,7 +26,7 @@ class UpdateCustomerRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'max:255'],
             'contact' => ['nullable', 'string', 'max:255'],
-            'sex' => ['nullable', 'string', 'min:1', 'max:1'],
+            'sex' => ['nullable', 'string', 'in:m,f'],
             'birthYear' => ['nullable', 'integer', 'min:1900', 'max:2100']
         ];
     }

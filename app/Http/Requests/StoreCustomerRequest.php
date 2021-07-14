@@ -26,7 +26,7 @@ class StoreCustomerRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:255'],
-            'sex' => ['required', 'string', 'min:1', 'max:1'],
+            'sex' => ['required', 'string', 'in:m,f'],
             'birthYear' => ['required', 'integer', 'min:1900', 'max:2100']
         ];
     }
