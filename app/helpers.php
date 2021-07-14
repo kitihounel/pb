@@ -1,5 +1,6 @@
 <?php
 
+use \Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
@@ -28,4 +29,33 @@ function toSnakeKeys(array $a)
         array_map([Str::class, 'snake'], array_keys($a)),
         $a
     );
+}
+
+/**
+ * Handle a simple restful controller index request.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param string  $className  Eloquent model class
+ * @param array  $options  Options
+ * @return array
+ */ 
+function apiControllerIndex(Request $request, string $className, array $options)
+{
+    $page = $request->query('page');
+    if ($page && !preg_match('/^[1-9][\d]*$/', $page))
+        abort(400);
+    
+    $instance = new $className;
+    if (array_key_exists('sort', $options)) {
+        foreach ($options['sort'] as $column => $order) {
+            $instance->orderBy($column, $order);
+        }
+    }
+
+    $paginator = $instance->paginate();
+    // This avoids navigation to invalid pages.
+    if ($page && intval($page) > $paginator->lastPage())
+        abort(404);
+
+    return toCamelKeys($paginator->toArray());
 }

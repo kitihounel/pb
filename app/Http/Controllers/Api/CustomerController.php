@@ -23,19 +23,10 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->query('page');
-        if ($page && !preg_match('/^[1-9][\d]*$/', $page))
-            abort(404);
-
-        $customers = Customer::orderBy('name')->paginate();
-
-        // This avoids navigation to invalid pages.
-        if ($page && intval($page) > $customers->lastPage())
-            abort(404);
-
-        return toCamelKeys($customers->toArray());
+        return apiControllerIndex($request, Customer::class, [
+            'sort' => [ 'name' => 'asc' ]
+        ]);
     }
-
 
     /**
      * Store a newly created resource in storage.

@@ -26,7 +26,7 @@ class StoreDoctorRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'speciality' => ['required', 'string', 'max:255'],
-            'number' => ['required', 'string', 'max:255'],
+            'number' => ['required', 'string', 'max:255', 'unique:doctors,number'],
             'contact' => ['required', 'string', 'max:255']
         ];
     }

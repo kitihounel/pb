@@ -18,17 +18,9 @@ class DrugController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->query('page');
-        if ($page && !preg_match('/^[1-9][\d]*$/', $page))
-            abort(404);
-
-        $drugs = Drug::orderBy('name')->paginate();
-
-        // This avoids navigation to invalid pages.
-        if ($page && intval($page) > $drugs->lastPage())
-            abort(404);
-
-        return toCamelKeys($drugs->toArray());
+        return apiControllerIndex($request, Drug::class, [
+            'sort' => [ 'name' => 'asc' ]
+        ]);
     }
 
     /**

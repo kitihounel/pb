@@ -24,17 +24,9 @@ class DoctorController extends Controller
      */
     public function index(Request $request)
     {
-        $page = $request->query('page');
-        if ($page && !preg_match('/^[1-9][\d]*$/', $page))
-            abort(404);
-
-        $doctors = Doctor::orderBy('name')->paginate();
-
-        // This avoids navigation to invalid pages.
-        if ($page && intval($page) > $doctors->lastPage())
-            abort(404);
-
-        return toCamelKeys($doctors->toArray());
+        return apiControllerIndex($request, Doctor::class, [
+            'sort' => [ 'name' => 'asc' ]
+        ]);
     }
 
     /**
