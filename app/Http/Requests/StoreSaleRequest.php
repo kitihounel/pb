@@ -31,7 +31,9 @@ class StoreSaleRequest extends FormRequest
             'patientSex' => ['required', 'string', 'in:m,f'],
             'patientAge' => ['required', 'integer', 'min:1', 'max:128'],
             'issuePlace' => ['required', 'string', 'max:255'],
-            'doctorId' => ['required', 'integer', 'exists:doctors,id']
+            'doctorId' => ['required', 'integer', 'exists:doctors,id'],
+            'drugId' => ['required', 'integer', 'exists:drugs,id'],
+            'quantity' => ['required', 'integer', 'min:1']
         ];
     }
 
@@ -50,7 +52,9 @@ class StoreSaleRequest extends FormRequest
             'patientSex' => 'patient sex',
             'patientAge' => 'patient age',
             'issuePlace' => 'issue place',
-            'doctorId' => 'doctor'
+            'doctorId' => 'doctor',
+            'drugId' => 'drug',
+            'quantity' => 'quantity'
         ];
     }
 }
