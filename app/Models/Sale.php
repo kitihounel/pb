@@ -27,6 +27,8 @@ class Sale extends Model
 
     public function drugs()
     {
-        return $this->belongsToMany(Drug::class);
+        return $this->belongsToMany(Drug::class)
+            ->withPivot('quantity')
+            ->withTimestamps();
     }
 }

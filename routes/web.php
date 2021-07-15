@@ -35,4 +35,10 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/customers/{customer}',       'Api\CustomerController@show');
     $router->put('/customers/{customer}',       'Api\CustomerController@update');
     $router->delete('/customers/{customer}',    'Api\CustomerController@destroy');
+
+    $router->get('/sales',              'Api\SaleController@index');
+    $router->post('/sales',             'Api\SaleController@store');
+    $router->get('/sales/{sale}',       'Api\SaleController@show');
+    $router->put('/sales/{sale}',       'Api\SaleController@update');
+    $router->delete('/sales/{sale}',    'Api\SaleController@destroy');
 });

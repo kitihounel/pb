@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSaleRequest;
 use App\Models\Sale;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -22,24 +25,32 @@ class SaleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreSaleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSaleRequest $request)
     {
-        //
+        $validated = toSnakeKeys($request->validated());
+        $sale = null;
+        $done = false;
+
+        try {
+            DB::transaction(function() use (&$validated, &$sale) {
+                $sale = Sale::create(Arr::except($validated, [
+                    'drug_id', 'quantity'
+                ]));
+                $sale->drugs()->attach($validated['drug_id'], [
+                    'quantity' => $validated['quantity']
+                ]);
+            });
+            $done = true;
+        } catch (\Throwable $th) {
+            $sale = null;
+        }
+
+        return response()->json($sale, $done ? 201: 500);
     }
 
     /**
@@ -50,18 +61,19 @@ class SaleController extends Controller
      */
     public function show(Sale $sale)
     {
-        //
-    }
+        $drugs = [];
+        foreach ($sale->drugs as $drug) {
+            $drugs[] = [
+                'id' => $drug->id,
+                'name' => $drug->name,
+                'quantity' => (int) $drug->pivot->quantity
+            ];
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Sale  $sale
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Sale $sale)
-    {
-        //
+        return array_merge(
+            $sale->attributesToArray(),
+            ['drugs' => $drugs]
+        );
     }
 
     /**
