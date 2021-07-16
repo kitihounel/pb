@@ -24,8 +24,8 @@ class UpdateSaleRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'transactionDate' => ['nullable', 'date'],
-            'prescriptionDate' => ['nullable', 'date'],
+            'transactionDate' => ['nullable', 'date', 'before_or_equal:today'],
+            'prescriptionDate' => ['nullable', 'date', 'before_or_equal:today'],
             'patientName' => ['nullable', 'string', 'max:255'],
             'patientContact' => ['nullable', 'string', 'max:255'],
             'patientSex' => ['nullable', 'string', 'in:m,f'],

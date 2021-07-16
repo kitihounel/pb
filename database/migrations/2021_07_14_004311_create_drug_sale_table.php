@@ -16,7 +16,7 @@ class CreateDrugSaleTable extends Migration
         Schema::create('drug_sale', function (Blueprint $table) {
             $table->id();
             $table->foreignId('sale_id')->constrained()->restrictOnDelete();
-            $table->foreignId('drug_id')->constrained()->restrictOnDelete();
+            $table->foreignId('drug_id')->constrained()->cascadeOnDelete();
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });
