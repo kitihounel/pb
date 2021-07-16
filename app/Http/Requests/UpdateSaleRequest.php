@@ -43,8 +43,13 @@ class UpdateSaleRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'transactionDate' => 'transaction date',
-            'prescriptionDate' => 'prescription date',
+            'prescriptionDate' => ['required', 'date', 'before_or_equal:today'],
+            'transactionDate' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                'after_or_equal:prescriptionDate'
+            ],
             'patientName' => 'patient name',
             'patientContact' => 'patient contact',
             'patientSex' => 'patient sex',

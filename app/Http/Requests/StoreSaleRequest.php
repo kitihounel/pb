@@ -24,8 +24,13 @@ class StoreSaleRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'transactionDate' => ['required', 'date', 'before_or_equal:today'],
             'prescriptionDate' => ['required', 'date', 'before_or_equal:today'],
+            'transactionDate' => [
+                'required',
+                'date',
+                'before_or_equal:today',
+                'after_or_equal:prescriptionDate'
+            ],
             'patientName' => ['required', 'string', 'max:255'],
             'patientContact' => ['required', 'string', 'max:255'],
             'patientSex' => ['required', 'string', 'in:m,f'],

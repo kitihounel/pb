@@ -36,11 +36,11 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->put('/customers/{customer}',       'Api\CustomerController@update');
     $router->delete('/customers/{customer}',    'Api\CustomerController@destroy');
 
-    $router->get('/sales',                  'Api\SaleController@index');
-    $router->post('/sales',                 'Api\SaleController@store');
-    $router->get('/sales/{sale}',           'Api\SaleController@show');
-    $router->put('/sales/{sale}',           'Api\SaleController@update');
-    $router->delete('/sales/{sale}',        'Api\SaleController@destroy');
-    $router->post('/sales/{sale}/add',      'Api\SaleController@addDrugToSale');
-    $router->post('/sales/{sale}/remove',   'Api\SaleController@removeDrugFromSale');
+    $router->get('/sales',                      'Api\SaleController@index');
+    $router->post('/sales',                     'Api\SaleController@store');
+    $router->get('/sales/{sale}',               'Api\SaleController@show');
+    $router->put('/sales/{sale}',               'Api\SaleController@update');
+    $router->delete('/sales/{sale}',            'Api\SaleController@destroy');
+    $router->post('/sales/{sale}/add-drug',      'Api\SaleController@addDrugToSale');
+    $router->post('/sales/{sale}/remove-drug',   'Api\SaleController@removeDrugFromSale');
 });

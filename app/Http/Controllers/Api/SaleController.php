@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -77,7 +82,7 @@ class SaleController extends Controller
 
         return array_merge(
             $sale->attributesToArray(),
-            ['drugs' => $drugs]
+            array('drugs' => $drugs)
         );
     }
 
@@ -91,7 +96,7 @@ class SaleController extends Controller
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
         $this->checkSaleCanBeUpdated($sale);
-        $sale->update($request->validated());
+        $sale->update(toSnakeKeys($request->validated()));
 
         return response($sale, 202);
     }
@@ -162,8 +167,7 @@ class SaleController extends Controller
     private function checkSaleCanBeUpdated(Sale $sale)
     {
         $today = Carbon::today();
-        $creationDate = Carbon::createFromTimestamp($sale->created_at);
-        $diff = $today->diffInDays($sale->$creationDate);
+        $diff = $today->diffInDays($sale->created_at);
         if ($diff > 30) {
             abort(409, 'Cannot update or delete a sale created more than 30 days ago.');
         }
