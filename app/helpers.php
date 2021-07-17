@@ -51,11 +51,7 @@ function apiControllerIndex(Request $request, string $className, array $options)
             $instance->orderBy($column, $order);
         }
     }
-
     $paginator = $instance->paginate();
-    // This avoids navigation to invalid pages.
-    if ($page && intval($page) > $paginator->lastPage())
-        abort(404);
 
     return toCamelKeys($paginator->toArray());
 }

@@ -36,7 +36,7 @@ class DrugController extends Controller
      */
     public function store(StoreDrugRequest $request)
     {
-        $validated = toSnakeKeys($request->validated());
+        $validated = $request->validated();
         $drug = Drug::create($validated);
 
         return response($drug, 201);
@@ -62,7 +62,7 @@ class DrugController extends Controller
      */
     public function update(UpdateDrugRequest $request, Drug $drug)
     {
-        $validated = toSnakeKeys($request->validated());
+        $validated = $request->validated();
         $drug->update($validated);
 
         return response($drug, 202);

@@ -24,14 +24,23 @@ class UpdateSaleRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'transactionDate' => ['nullable', 'date', 'before_or_equal:today'],
-            'prescriptionDate' => ['nullable', 'date', 'before_or_equal:today'],
-            'patientName' => ['nullable', 'string', 'max:255'],
-            'patientContact' => ['nullable', 'string', 'max:255'],
-            'patientSex' => ['nullable', 'string', 'in:m,f'],
-            'patientAge' => ['nullable', 'integer', 'min:1', 'max:128'],
-            'issuePlace' => ['nullable', 'string', 'max:255'],
-            'doctorId' => ['nullable', 'integer', 'exists:doctors,id']
+            'prescription_date' => [
+                'nullable',
+                'date',
+                'before_or_equal:today'
+            ],
+            'transaction_date' => [
+                'nullable',
+                'date',
+                'before_or_equal:today',
+                'after_or_equal:prescription_date'
+            ],
+            'patient_name' => ['nullable', 'string', 'max:255'],
+            'patient_contact' => ['nullable', 'string', 'max:255'],
+            'patient_sex' => ['nullable', 'string', 'in:m,f'],
+            'patient_age' => ['nullable', 'integer', 'min:1', 'max:128'],
+            'issue_place' => ['nullable', 'string', 'max:255'],
+            'doctor_id' => ['nullable', 'integer', 'exists:doctors,id']
         ];
     }
 
@@ -43,19 +52,14 @@ class UpdateSaleRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'prescriptionDate' => ['required', 'date', 'before_or_equal:today'],
-            'transactionDate' => [
-                'required',
-                'date',
-                'before_or_equal:today',
-                'after_or_equal:prescriptionDate'
-            ],
-            'patientName' => 'patient name',
-            'patientContact' => 'patient contact',
-            'patientSex' => 'patient sex',
-            'patientAge' => 'patient age',
-            'issuePlace' => 'issue place',
-            'doctorId' => 'doctor'
+            'prescription_date' => 'prescription date',
+            'transaction_date' => 'transaction date',
+            'patient_name' => 'patient name',
+            'patient_contact' => 'patient contact',
+            'patient_sex' => 'patient sex',
+            'patient_age' => 'patient age',
+            'issue_place' => 'issue place',
+            'doctor_id' => 'doctor'
         ];
     }
 }

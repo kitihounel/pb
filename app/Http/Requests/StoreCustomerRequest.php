@@ -27,7 +27,7 @@ class StoreCustomerRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'contact' => ['required', 'string', 'max:255'],
             'sex' => ['required', 'string', 'in:m,f'],
-            'birthYear' => ['required', 'integer', 'min:1900', 'max:2100']
+            'birth_year' => ['required', 'integer', 'min:1900', 'max:2100']
         ];
     }
 
@@ -39,7 +39,7 @@ class StoreCustomerRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'birthYear' => 'birth year',
+            'birth_year' => 'birth year',
         ];
     }
 }

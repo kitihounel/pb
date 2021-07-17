@@ -26,7 +26,12 @@ class StoreDrugRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'inn' => ['required', 'string', 'max:255'],
-            'price' => ['required', 'numeric', 'regex:/^\d{1,6}(.\d{0,2})?$/', 'between:1,999999.99'],
+            'price' => [
+                'required',
+                'numeric',
+                'regex:/^\d{1,6}(.\d{0,2})?$/',
+                'between:1,999999.99'
+            ],
             'presentation' => ['required', 'string', 'max:255']
         ];
     }

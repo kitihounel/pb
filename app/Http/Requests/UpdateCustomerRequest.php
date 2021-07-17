@@ -27,7 +27,7 @@ class UpdateCustomerRequest extends FormRequest
             'name' => ['nullable', 'string', 'max:255'],
             'contact' => ['nullable', 'string', 'max:255'],
             'sex' => ['nullable', 'string', 'in:m,f'],
-            'birthYear' => ['nullable', 'integer', 'min:1900', 'max:2100']
+            'birth_year' => ['nullable', 'integer', 'min:1900', 'max:2100']
         ];
     }
 
@@ -39,7 +39,7 @@ class UpdateCustomerRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'birthYear' => 'birth year',
+            'birth_year' => 'birth year',
         ];
     }
 }

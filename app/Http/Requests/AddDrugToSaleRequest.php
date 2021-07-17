@@ -24,7 +24,7 @@ class AddDrugToSaleRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'drugId' => ['required', 'integer', 'exists:drugs,id'],
+            'drug_id' => ['required', 'integer', 'exists:drugs,id'],
             'quantity' => ['required', 'integer', 'min:1']
         ];
     }
@@ -37,7 +37,7 @@ class AddDrugToSaleRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'drugId' => 'drug',
+            'drug_id' => 'drug',
             'quantity' => 'quantity'
         ];
     }

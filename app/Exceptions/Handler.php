@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof NotFoundHttpException || $e instanceof ModelNotFoundException) {
-            return $request->wantsJson() ?
+            return $request->isJson() ?
                 response()->json(null, 404) :
                 response(view('404'), 404);
         }
@@ -59,6 +59,13 @@ class Handler extends ExceptionHandler
         if ($e instanceof NoDataSuppliedException) {
             return response()->json([
                 'message' => $e->getMessage()
+            ], 422);
+        }
+
+        if ($e instanceof ValidationException && $request->isJson()) {
+            return response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => toCamelKeys($e->errors())
             ], 422);
         }
 

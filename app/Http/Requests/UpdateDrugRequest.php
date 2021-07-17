@@ -26,7 +26,12 @@ class UpdateDrugRequest extends FormRequest
         return [
             'name' => ['nullable', 'string', 'max:255'],
             'inn' => ['nullable', 'string', 'max:255'],
-            'price' => ['nullable', 'numeric', 'regex:/^\d{1,6}(.\d{0,2})?$/', 'between:1,999999.99'],
+            'price' => [
+                'nullable',
+                'numeric',
+                'regex:/^\d{1,6}(.\d{0,2})?$/',
+                'between:1,999999.99'
+            ],
             'presentation' => ['nullable', 'string', 'max:255']
         ];
     }

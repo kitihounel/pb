@@ -10,6 +10,8 @@ Prescription Book backend
 - [Eloquence](#eloquence)
 - [Route Model Binding](#route-model-binding)
 - [Form Requests](#form-requests)
+- [Convert Request Parameters to Snake Case](#convert-request-parameters-to-snake-case)
+- [Convert API Requests and Responses to Camel Case](#convert-api-requests-and-responses-to-camel-case)
 
 ## Database Driver
 
@@ -284,3 +286,12 @@ $app->register(\Anik\Form\FormRequestServiceProvider::class);
    `\Illuminate\Auth\Access\AuthorizationException` exception.
 
 For more doc, see the repo at https://github.com/ssi-anik/form-request.
+
+## Convert Request Parameters to Snake Case
+We use a middleware to convert request parameter keys to snake case. These eases a lot of things when
+writing controllers and validation rules. The article describing the middleware is available @
+https://dev.to/samolabams/transforming-laravel-request-data-using-middleware-2k7j.
+
+## Convert API Requests and Responses to Camel Case
+Although we did not use that in this project, it could be useful later. The aricle is available
+@ https://gregkedzierski.com/essays/converting-laravel-api-requests-and-responses-to-camelcase/.

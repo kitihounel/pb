@@ -36,7 +36,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        $validated = toSnakeKeys($request->validated());
+        $validated = $request->validated();
 
         return response(
             Customer::create($validated),
@@ -64,7 +64,7 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        $customer->update(toSnakeKeys($request->validated()));
+        $customer->update($request->validated());
 
         return response($customer, 202);
     }

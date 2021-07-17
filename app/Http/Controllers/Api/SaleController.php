@@ -42,17 +42,15 @@ class SaleController extends Controller
      */
     public function store(StoreSaleRequest $request)
     {
-        $validated = toSnakeKeys($request->validated());
+        $validated = $request->validated();
         $sale = null;
         $done = false;
 
         try {
             DB::transaction(function() use (&$validated, &$sale) {
-                $sale = Sale::create(Arr::except($validated, [
-                    'drug_id', 'quantity'
-                ]));
-                $sale->drugs()->attach($validated['drug_id'], [
-                    'quantity' => $validated['quantity']
+                $sale = Sale::create(Arr::except($validated, 'drug'));
+                $sale->drugs()->attach($validated['drug']['id'], [
+                    'quantity' => $validated['drug']['quantity']
                 ]);
             });
             $done = true;
@@ -96,7 +94,7 @@ class SaleController extends Controller
     public function update(UpdateSaleRequest $request, Sale $sale)
     {
         $this->checkSaleCanBeUpdated($sale);
-        $sale->update(toSnakeKeys($request->validated()));
+        $sale->update($request->validated());
 
         return response($sale, 202);
     }
@@ -133,7 +131,7 @@ class SaleController extends Controller
     public function addDrugToSale(AddDrugToSaleRequest $request, Sale $sale)
     {
         $validated = $request->validated();
-        $drug = Drug::findOrFail($validated['drugId']);
+        $drug = Drug::findOrFail($validated['drug_id']);
         $sale->addDrug($drug, $validated['quantity']);
 
         return response()->json(null, 204);
@@ -149,10 +147,9 @@ class SaleController extends Controller
     public function removeDrugFromSale(RemoveDrugFromSaleRequest $request, Sale $sale)
     {
         $validated = $request->validated();
-        $drug = $sale->drugs()->find($validated['drugId']);
-        if (!$drug) {
+        $drug = $sale->drugs()->find($validated['drug_id']);
+        if (!$drug)
             abort(404, 'The given drug is not on the sale.');
-        }
         $sale->removeDrug($drug);
 
         return response()->json(null, 204);
@@ -168,8 +165,7 @@ class SaleController extends Controller
     {
         $today = Carbon::today();
         $diff = $today->diffInDays($sale->created_at);
-        if ($diff > 30) {
+        if ($diff > 30)
             abort(409, 'Cannot update or delete a sale created more than 30 days ago.');
-        }
     }
 }

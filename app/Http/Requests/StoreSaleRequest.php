@@ -24,21 +24,25 @@ class StoreSaleRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'prescriptionDate' => ['required', 'date', 'before_or_equal:today'],
-            'transactionDate' => [
+            'prescription_date' => [
+                'required',
+                'date',
+                'before_or_equal:today'
+            ],
+            'transaction_date' => [
                 'required',
                 'date',
                 'before_or_equal:today',
-                'after_or_equal:prescriptionDate'
+                'after_or_equal:prescription_date'
             ],
-            'patientName' => ['required', 'string', 'max:255'],
-            'patientContact' => ['required', 'string', 'max:255'],
-            'patientSex' => ['required', 'string', 'in:m,f'],
-            'patientAge' => ['required', 'integer', 'min:1', 'max:128'],
-            'issuePlace' => ['required', 'string', 'max:255'],
-            'doctorId' => ['required', 'integer', 'exists:doctors,id'],
-            'drugId' => ['required', 'integer', 'exists:drugs,id'],
-            'quantity' => ['required', 'integer', 'min:1']
+            'patient_name' => ['required', 'string', 'max:255'],
+            'patient_contact' => ['required', 'string', 'max:255'],
+            'patient_sex' => ['required', 'string', 'in:m,f'],
+            'patient_age' => ['required', 'integer', 'min:1', 'max:128'],
+            'issue_place' => ['required', 'string', 'max:255'],
+            'doctor_id' => ['required', 'integer', 'exists:doctors,id'],
+            'drug.id' => ['required', 'integer', 'exists:drugs,id'],
+            'drug.quantity' => ['required', 'integer', 'min:1']
         ];
     }
 
@@ -50,16 +54,16 @@ class StoreSaleRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'transactionDate' => 'transaction date',
-            'prescriptionDate' => 'prescription date',
-            'patientName' => 'patient name',
-            'patientContact' => 'patient contact',
-            'patientSex' => 'patient sex',
-            'patientAge' => 'patient age',
-            'issuePlace' => 'issue place',
-            'doctorId' => 'doctor',
-            'drugId' => 'drug',
-            'quantity' => 'quantity'
+            'transaction_date' => 'transaction date',
+            'prescription_date' => 'prescription date',
+            'patient_name' => 'patient name',
+            'patient_contact' => 'patient contact',
+            'patient_sex' => 'patient sex',
+            'patient_age' => 'patient age',
+            'issue_place' => 'issue place',
+            'doctor_id' => 'doctor',
+            'drug.id' => 'drug',
+            'drug.quantity' => 'quantity'
         ];
     }
 }
