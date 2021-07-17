@@ -292,6 +292,31 @@ We use a middleware to convert request parameter keys to snake case. These eases
 writing controllers and validation rules. The article describing the middleware is available @
 https://dev.to/samolabams/transforming-laravel-request-data-using-middleware-2k7j.
 
+It can be sometimes useful to detect if an array is sequential or associative. If this need rises, this SO thread
+can be useful: https://stackoverflow.com/questions/173400/how-to-check-if-php-array-is-associative-or-sequential.
+For our middleware, we don't need this check. The following code explains why.
+
+```php
+$ php -a
+Interactive mode enabled
+
+php > $a = ['0' => 'abc', '1' => 'fdb', '2' => 'rdf'];
+php > echo json_encode($a);
+["abc","fdb","rdf"]
+php > 
+```
+
+Since the keys of the array are integers and given is order, the result array is sequential.
+
+Note that if the keys are not given in order, the behaviour changes.
+
+```php
+php > $a = ['3' => 'bcd', '0' => 'abc', '1' => 'fdb', '2' => 'rdf'];
+php > echo json_encode($a);
+{"3":"bcd","0":"abc","1":"fdb","2":"rdf"}
+php > 
+```
+
 ## Convert API Requests and Responses to Camel Case
 Although we did not use that in this project, it could be useful later. The aricle is available
 @ https://gregkedzierski.com/essays/converting-laravel-api-requests-and-responses-to-camelcase/.
