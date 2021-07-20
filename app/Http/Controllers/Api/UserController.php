@@ -7,6 +7,9 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -36,10 +39,15 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        return response(
-            User::create($request->validated()),
-            201
-        );
+        $validated = $request->validated();
+        $fillable = Arr::except($validated, 'password');
+
+        $user = new User($fillable);
+        $user->password = Hash::make($validated['password']);
+        $user->api_token = Str::random(User::tokenLength());
+        $user->save();
+
+        return response($user, 201);
     }
 
     /**
@@ -63,7 +71,14 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $validated = $request->validated();
-        $user->update($validated);
+        $fillable = Arr::except($validated, 'password');
+
+        $user->fill($fillable);
+        if (Arr::exists($validated, 'password')) {
+            $newPass = Hash::make($validated['password']);
+            $user->password = $newPass;
+        }
+        $user->update();
 
         return response($user, 200);
     }
@@ -84,6 +99,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json('', 204);
+        return response('', 204);
     }
 }

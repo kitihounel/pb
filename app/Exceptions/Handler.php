@@ -51,9 +51,10 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof NotFoundHttpException || $e instanceof ModelNotFoundException) {
-            return $request->isJson() ?
-                response()->json(null, 404) :
-                response(view('404'), 404);
+            return response(
+                $request->isJson() ? '' : view('404'),
+                404
+            );
         }
 
         if ($e instanceof NoDataSuppliedException) {

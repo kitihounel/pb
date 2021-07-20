@@ -20,10 +20,9 @@ class UserSeeder extends Seeder
         $testUser = User::create([
             'name' => 'Kofi',
             'username' => 'kofi',
-            'api_token' => str_repeat('abc', 27),
-            'password' => Hash::make('password')
+            'api_token' => Str::repeat('abcd', 20),
+            'password' => Hash::make('password'),
+            'role' => 'admin'
         ]);
-        $testUser->role = 'admin';
-        $testUser->update();
     }
 }

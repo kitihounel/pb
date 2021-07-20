@@ -27,7 +27,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => ['nullable', 'string', 'max:255'],
-            'username' => ['nullable', 'string', 'max:31', 'unique:users'],
+            'username' => ['nullable', 'alpha', 'max:31'],
             'password' => ['nullable', 'string', 'min:8', 'max:255'],
             'role' => ['nullable', 'string', 'in:user,admin']
         ];

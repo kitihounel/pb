@@ -19,9 +19,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
+        // Only admins are allowed to create users. So, there is no problem
+        // making role attribute fillable.
         'name',
+        'role',
         'email',
-        'username',
+        'username'
     ];
 
     /**
@@ -37,6 +40,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     /**
+     * API token length.
+     */
+    private static $API_TOKEN_LENGTH = 80;
+
+    /**
      * Check if the uset has admin rights.
      * 
      * @return bool
@@ -44,5 +52,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Return the API token length.
+     */
+    public static function tokenLength()
+    {
+        return self::$API_TOKEN_LENGTH;
     }
 }
