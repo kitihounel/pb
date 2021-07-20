@@ -41,6 +41,12 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/sales/{sale}',               'Api\SaleController@show');
     $router->put('/sales/{sale}',               'Api\SaleController@update');
     $router->delete('/sales/{sale}',            'Api\SaleController@destroy');
-    $router->post('/sales/{sale}/add-drug',      'Api\SaleController@addDrugToSale');
-    $router->post('/sales/{sale}/remove-drug',   'Api\SaleController@removeDrugFromSale');
+    $router->post('/sales/{sale}/add-drug',     'Api\SaleController@addDrugToSale');
+    $router->post('/sales/{sale}/remove-drug',  'Api\SaleController@removeDrugFromSale');
+
+    $router->get('/users',              'Api\UserController@index');
+    $router->post('/users',             'Api\UserController@store');
+    $router->get('/users/{users}',      'Api\UserController@show');
+    $router->put('/users/{users}',      'Api\UserController@update');
+    $router->delete('/users/{users}',   'Api\UserController@destroy');
 });

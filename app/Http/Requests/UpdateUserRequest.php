@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Anik\Form\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,10 @@ class StoreUserRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:31', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'max:255'],
-            'role' => ['required', 'string', 'in:user,admin']
+            'name' => ['nullable', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:31', 'unique:users'],
+            'password' => ['nullable', 'string', 'min:8', 'max:255'],
+            'role' => ['nullable', 'string', 'in:user,admin']
         ];
     }
 }

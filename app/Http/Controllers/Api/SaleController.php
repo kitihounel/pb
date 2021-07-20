@@ -96,7 +96,7 @@ class SaleController extends Controller
         $this->checkSaleCanBeUpdated($sale);
         $sale->update($request->validated());
 
-        return response($sale, 202);
+        return response($sale, 200);
     }
 
     /**
@@ -118,7 +118,7 @@ class SaleController extends Controller
             // Don't care...
         }
 
-        return response()->json(null, $done ? 204: 500);
+        return response('', $done ? 204: 500);
     }
 
     /**
@@ -134,7 +134,7 @@ class SaleController extends Controller
         $drug = Drug::findOrFail($validated['drug_id']);
         $sale->addDrug($drug, $validated['quantity']);
 
-        return response()->json(null, 204);
+        return response('', 204);
     }
 
     /**

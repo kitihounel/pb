@@ -71,7 +71,7 @@ class DoctorController extends Controller
         }
         $doctor->update($validated);
 
-        return response($doctor, 202);
+        return response($doctor, 200);
     }
 
     /**
@@ -84,6 +84,6 @@ class DoctorController extends Controller
     {
         $doctor->delete();
 
-        return response()->json(null, 204);
+        return response('', 204);
     }
 }

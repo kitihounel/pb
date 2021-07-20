@@ -65,7 +65,7 @@ class DrugController extends Controller
         $validated = $request->validated();
         $drug->update($validated);
 
-        return response($drug, 202);
+        return response($drug, 200);
     }
 
     /**
@@ -78,6 +78,6 @@ class DrugController extends Controller
     {
         $drug->delete();
 
-        return response()->json(null, 204);
+        return response('', 204);
     }
 }

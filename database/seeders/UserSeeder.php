@@ -17,11 +17,13 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $testUser = User::create([
             'name' => 'Kofi',
             'username' => 'kofi',
-            'password' => Hash::make('password'),
-            'api_token' => str_repeat('abc', 27)
+            'api_token' => str_repeat('abc', 27),
+            'password' => Hash::make('password')
         ]);
+        $testUser->role = 'admin';
+        $testUser->update();
     }
 }

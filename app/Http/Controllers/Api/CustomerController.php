@@ -66,7 +66,7 @@ class CustomerController extends Controller
     {
         $customer->update($request->validated());
 
-        return response($customer, 202);
+        return response($customer, 200);
     }
 
     /**
@@ -79,6 +79,6 @@ class CustomerController extends Controller
     {
         $customer->delete();
 
-        return response()->json(null, 204);
+        return response('', 204);
     }
 }

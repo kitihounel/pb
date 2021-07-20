@@ -22,7 +22,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'name',
         'email',
         'username',
-        'api_token'
     ];
 
     /**
@@ -32,7 +31,18 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $hidden = [
         'password',
+        'api_token',
         'created_at',
         'updated_at'
     ];
+
+    /**
+     * Check if the uset has admin rights.
+     * 
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }
