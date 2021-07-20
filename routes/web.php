@@ -18,6 +18,8 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => '/api'], function() use ($router) {
+    $router->get('/login', 'Api\LoginController@login');
+
     $router->get('/doctors',                'Api\DoctorController@index');
     $router->get('/doctors/{doctor}',       'Api\DoctorController@show');
     $router->post('/doctors',               'Api\DoctorController@store');
@@ -44,8 +46,8 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->post('/sales/{sale}/add-drug',     'Api\SaleController@addDrugToSale');
     $router->post('/sales/{sale}/remove-drug',  'Api\SaleController@removeDrugFromSale');
 
-    $router->get('/users',              'Api\UserController@index');
-    $router->post('/users',             'Api\UserController@store');
+    $router->get('/users',             'Api\UserController@index');
+    $router->post('/users',            'Api\UserController@store');
     $router->get('/users/{user}',      'Api\UserController@show');
     $router->put('/users/{user}',      'Api\UserController@update');
     $router->delete('/users/{user}',   'Api\UserController@destroy');
