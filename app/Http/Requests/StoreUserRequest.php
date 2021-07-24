@@ -13,7 +13,7 @@ class StoreUserRequest extends FormRequest
      */
     protected function authorize(): bool
     {
-        $user = request()->user();
+        $user = $this->user();
 
         return $user != null && $user->isAdmin();
     }
