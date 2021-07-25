@@ -24,13 +24,13 @@ class SalesReviewRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'drug_id' => ['required', 'integer', 'exists:drugs,id'],
+            'drug_id' => ['nullable', 'integer', 'exists:drugs,id'],
             'start_date' => ['required', 'date'],
             'end_date' => [
                 'required',
                 'date',
                 'before_or_equal:today',
-                'before_or_equal:start_date'
+                'after_or_equal:start_date'
             ]
         ];
     }
@@ -43,14 +43,9 @@ class SalesReviewRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'drug_id' => ['required', 'integer', 'exists:drugs,id'],
-            'start_date' => ['required', 'date'],
-            'end_date' => [
-                'required',
-                'date',
-                'before_or_equal:today',
-                'before_or_equal:start_date'
-            ]
+            'drug_id' => 'drug',
+            'start_date' => 'start date',
+            'end_date' => 'end date'
         ];
     }
 }
