@@ -36,7 +36,7 @@ class RemoveDrugFromSaleRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'drug_id' => 'drug',
+            'drug_id' => 'drug'
         ];
     }
 }

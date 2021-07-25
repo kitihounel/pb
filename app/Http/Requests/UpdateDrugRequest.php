@@ -44,7 +44,7 @@ class UpdateDrugRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'inn' => 'INN',
+            'inn' => 'INN'
         ];
     }
 }

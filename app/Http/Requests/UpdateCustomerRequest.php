@@ -39,7 +39,7 @@ class UpdateCustomerRequest extends FormRequest
     protected function attributes():  array
     {
         return [
-            'birth_year' => 'birth year',
+            'birth_year' => 'birth year'
         ];
     }
 }

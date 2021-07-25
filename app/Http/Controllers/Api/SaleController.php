@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddDrugToSaleRequest;
 use App\Http\Requests\RemoveDrugFromSaleRequest;
+use App\Http\Requests\SalesReviewRequest;
 use App\Http\Requests\StoreSaleRequest;
 use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Drug;
@@ -128,7 +129,7 @@ class SaleController extends Controller
      * @param  \App\Models\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function addDrugToSale(AddDrugToSaleRequest $request, Sale $sale)
+    public function addItem(AddDrugToSaleRequest $request, Sale $sale)
     {
         $validated = $request->validated();
         $drug = Drug::findOrFail($validated['drug_id']);
@@ -144,7 +145,7 @@ class SaleController extends Controller
      * @param  \App\Models\Sale  $sale
      * @return \Illuminate\Http\Response
      */
-    public function removeDrugFromSale(RemoveDrugFromSaleRequest $request, Sale $sale)
+    public function removeItem(RemoveDrugFromSaleRequest $request, Sale $sale)
     {
         $validated = $request->validated();
         $drug = $sale->drugs()->find($validated['drug_id']);
@@ -153,6 +154,50 @@ class SaleController extends Controller
         $sale->removeDrug($drug);
 
         return response()->json(null, 204);
+    }
+
+    /**
+     * Return sales review for a given period.
+     *
+     * @param  App\Http\Requests\SalesReviewRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function salesReview(SalesReviewRequest $request)
+    {
+        $validated = $request->validated();
+        $query = DB::table('drugs')
+            ->join('drug_sale', 'drugs.id', '=', 'drug_sale.drug_id')
+            ->join('sales', 'drug_sale.sale_id', '=', 'sales.id')
+            ->whereBetween(
+                'sales.transaction_date',
+                 [$validated['start_date'], $validated['end_date']]
+            )
+            ->select(
+                'drugs.id',
+                'drugs.name',
+                'drugs.inn',
+                'drugs.price',
+                'drugs.presentation',
+                DB::raw('sum(drug_sale.quantity) as total')
+            )
+            ->groupBy(
+                'drugs.id',
+                'drugs.name',
+                'drugs.inn',
+                'drugs.price',
+                'drugs.presentation'
+            )
+            ->orderBy(
+                'drugs.name'
+        );
+        
+        if (Arr::has($validated, 'drug_id')) {
+            $query->where(
+                'drugs.id', '=', $validated['drug_id']
+            );
+        }
+
+        return response($query->get());
     }
 
     /**
