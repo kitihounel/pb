@@ -2,6 +2,12 @@
 
 This document describes the steps to deploy the app on an Apache server.
 
+## TODO
+
+- Find a way to store default user in the db without using the `--seed` option when running
+ the database migrations the first time. See `htpasswd` command and `sqlite3`. See if there
+ is `bcrypt` function in SQL.
+
 ## Clone the Repository
 
 The app will be installed in `/srv/apache/pb`.
@@ -67,10 +73,20 @@ php artisan key:generate
 ## Run Database Migrations 
 
 ```bash
-php artisan migrate:fresh # You can --seed option, although it is not recommended in production.
+php artisan migrate:fresh # You can use the --seed option, although it is not recommended in production.
 ```
 
 Note that we can use the `--seed` option to have our test user created for us.
+
+## Add Write Permissions to Storage Folder
+
+You need to give write permissions on the `storage` folder to the user which runs the web server
+process to enable the app logs.
+
+```
+cd /srv/apache/pb
+chmod -R o+w ./storage
+```
 
 ## Configure Apache to Serve The App
 
