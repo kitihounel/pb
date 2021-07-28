@@ -78,17 +78,10 @@ php artisan migrate:fresh # You can use the --seed option, although it is not re
 
 Note that we can use the `--seed` option to have our test user created for us.
 
-## Add Write Permissions to Storage Folder
+## Give Apache User Write Permissions to Storage Folder
 
 You need to give write permissions on the `storage` folder to the user which runs the web server
-process to enable the app logs.
-
-```
-cd /srv/apache/pb
-chmod -R o+w ./storage
-```
-
-## Find Apache Process User and Group
+process to enable the app logs and caching.
 
 Usually, the user is `www-data` and the group is also `www-data`. To find that user, run the
 following command:
@@ -102,6 +95,16 @@ After that, you can get his group with (here we use `www-data` as user):
 ```bash
 groups www-data
 ```
+
+Finally change the group ownership of the `storage` folder. We only need to change the group,
+not the owner.
+
+```
+cd /srv/apache/pb
+sudo chgrp -R www-data  ./storage
+```
+
+You need to run the command as root. See this SO thread for the reason: https://superuser.com/questions/375464.
 
 ## Configure Apache to Serve The App
 
@@ -158,3 +161,4 @@ Everything should work now.
 ## Acknowledgement
 
 - https://clouding.io/hc/en-us/articles/360013637759-How-To-Setup-Lumen-API-on-Ubuntu
+- https://serverfault.com/questions/125865/finding-out-what-user-apache-is-running-as
