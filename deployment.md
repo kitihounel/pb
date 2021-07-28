@@ -88,6 +88,21 @@ cd /srv/apache/pb
 chmod -R o+w ./storage
 ```
 
+## Find Apache Process User and Group
+
+Usually, the user is `www-data` and the group is also `www-data`. To find that user, run the
+following command:
+
+```bash
+ps -ef | egrep '(httpd|apache2|apache)' | grep -v root | head -n1 | awk '{print $1}'
+```
+
+After that, you can get his group with (here we use `www-data` as user):
+
+```bash
+groups www-data
+```
+
 ## Configure Apache to Serve The App
 
 First of all, make sure that `mod_rewrite` is enabled.
