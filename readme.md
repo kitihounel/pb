@@ -1,6 +1,10 @@
 # pb
 
-Prescription Book backend
+This is the backend of the **Prescription Book** application.
+
+Prescription Book is an web application that aims to help Beninese drug stores to track the sales
+of prescription drugs. It can be used to generate quarterly reports that drug stores are required
+to send to the Ministry of Health. 
 
 - [Database Driver](#database-driver)
 - [Add Common Artisan Commands to Lumen](#add-common-artisan-commands-to-lumen)
@@ -12,6 +16,7 @@ Prescription Book backend
 - [Form Requests](#form-requests)
 - [Convert Request Parameters to Snake Case](#convert-request-parameters-to-snake-case)
 - [Convert API Requests and Responses to Camel Case](#convert-api-requests-and-responses-to-camel-case)
+- [Laravel Authentication: Under The Hood](#laravel-authentication-under-the-hood)
 
 ## Database Driver
 
@@ -320,3 +325,8 @@ php >
 ## Convert API Requests and Responses to Camel Case
 Although we did not use that in this project, it could be useful later. The aricle is available
 @ https://gregkedzierski.com/essays/converting-laravel-api-requests-and-responses-to-camelcase/.
+
+## Laravel Authentication: Under The Hood
+
+A good article that explains how auth works in Laravel.
+https://medium.com/@mariowhowrites/laravel-authentication-under-the-hood-78064b5b89e6.
