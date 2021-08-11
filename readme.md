@@ -13,6 +13,7 @@ to send to the Ministry of Health.
 - [Add Helper functions](#add-helper-functions)
 - [Eloquence](#eloquence)
 - [Route Model Binding](#route-model-binding)
+- [CORS and Options Requests](#cors-and-options-requests)
 - [Form Requests](#form-requests)
 - [Convert Request Parameters to Snake Case](#convert-request-parameters-to-snake-case)
 - [Convert API Requests and Responses to Camel Case](#convert-api-requests-and-responses-to-camel-case)
@@ -255,6 +256,14 @@ public function getRouteKeyName()
     return 'slug';
 }
 ```
+
+## CORS and Options Requests
+
+This is necessary to enable preflight requests from frontend. The process is described
+[here](https://gist.github.com/danharper/06d2386f0b826b669552) and there is a good explaination
+[here](https://stackoverflow.com/questions/43871637).
+
+In a nutshell, you have to add a `CorsMiddleware` and a `CatchAllOptionsRequestsProvider`.
 
 ## Form Requests
 

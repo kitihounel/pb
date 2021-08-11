@@ -73,7 +73,8 @@ $app->configure('app');
 */
 
 $app->middleware([
-    App\Http\Middleware\SnakeRequestParamKeys::class
+    App\Http\Middleware\SnakeRequestParamKeys::class,
+    App\Http\Middleware\CorsMiddleware::class
 ]);
 
 $app->routeMiddleware([
@@ -103,6 +104,8 @@ $app->register(\Anik\Form\FormRequestServiceProvider::class);
 $app->register(\Eloquence\EloquenceServiceProvider::class);
 
 $app->register(App\Providers\RouteBindingServiceProvider::class);
+
+$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
 
 /*
 |--------------------------------------------------------------------------
