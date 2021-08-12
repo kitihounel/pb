@@ -17,10 +17,11 @@ class CorsMiddleware
     {
         $response = $next($request);
 
-        $reqAccessControl = $request->header('Access-Control-Request-Headers');
         $response->withHeaders([
             'Access-Control-Allow-Methods' => 'HEAD, GET, POST, PUT, PATCH, DELETE',
-            'Access-Control-Allow-Headers' => $reqAccessControl,
+            'Access-Control-Allow-Headers' => $request->header(
+                'Access-Control-Request-Headers'
+            ),
             'Access-Control-Allow-Origin' => '*'
         ]);
 

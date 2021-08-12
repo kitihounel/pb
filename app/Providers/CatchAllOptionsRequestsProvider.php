@@ -13,20 +13,9 @@ class CatchAllOptionsRequestsProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
         $request = app('request');
-
         if ($request->isMethod('options')) {
-            app()->options($request->path(), function () {
+            app()->router->options($request->path(), function () {
                 return response('', 200);
             });
         }

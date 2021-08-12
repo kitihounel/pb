@@ -27,6 +27,6 @@ class LoginController extends Controller
             ], 200);
         }
 
-        return response('', 404);
+        return response('', 401);
     }
 }
