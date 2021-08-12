@@ -18,7 +18,7 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group(['prefix' => '/api'], function() use ($router) {
-    $router->get('/login', 'Api\LoginController@login');
+    $router->post('/login', 'Api\LoginController@login');
 
     $router->get('/doctors',                'Api\DoctorController@index');
     $router->get('/doctors/{doctor}',       'Api\DoctorController@show');
