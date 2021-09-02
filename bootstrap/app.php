@@ -105,8 +105,6 @@ $app->register(\Eloquence\EloquenceServiceProvider::class);
 
 $app->register(App\Providers\RouteBindingServiceProvider::class);
 
-$app->register(App\Providers\CatchAllOptionsRequestsProvider::class);
-
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

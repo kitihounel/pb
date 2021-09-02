@@ -2,6 +2,9 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -54,4 +57,29 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->delete('/users/{user}',   'Api\UserController@destroy');
 
     $router->get('/user', 'Api\ProfileController@index');
+});
+
+$router->options('/login', function() {
+    return (new Response('', 200))->withHeaders([
+        'Access-Control-Allow-Methods' => 'POST',
+        'Access-Control-Max-Age' => 86400
+    ]);
+});
+
+$router->options('/api/user', function() {
+    return (new Response('', 200))->withHeaders([
+        'Access-Control-Allow-Headers' => 'Authorization',
+        'Access-Control-Allow-Methods' => 'GET',
+        'Access-Control-Max-Age' => 86400,
+    ]);
+});
+
+$router->options('/api/{route:.*}/', function($route) {
+    error_log('wildcard route' . $route, 0);
+    return (new Response('', 200))->withHeaders([
+        'Access-Control-Allow-Headers' => 'Authorization',
+        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
+        'Access-Control-Allow-Origin' => 'http://localhost:4200',
+        'Access-Control-Max-Age' => 86400
+    ]);
 });

@@ -17,13 +17,11 @@ class CorsMiddleware
     {
         $response = $next($request);
 
-        $response->withHeaders([
-            'Access-Control-Allow-Methods' => 'HEAD, GET, POST, PUT, PATCH, DELETE',
-            'Access-Control-Allow-Headers' => $request->header(
-                'Access-Control-Request-Headers'
-            ),
-            'Access-Control-Allow-Origin' => '*'
-        ]);
+        $url = env('APP_URL');
+        $port = $request->server('SERVER_PORT', 80);
+        $fallbackOrigin = sprintf('%s:%s', $url, $port);
+        $origin = env('ALLOWED_CORS_ORIGIN', $fallbackOrigin);
+        $response->header('Access-Control-Allow-Origin', $origin);
 
         return $response;
     }
