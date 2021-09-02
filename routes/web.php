@@ -59,7 +59,7 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/user', 'Api\ProfileController@index');
 });
 
-$router->options('/login', function() {
+$router->options('/api/login', function() {
     return (new Response('', 200))->withHeaders([
         'Access-Control-Allow-Methods' => 'POST',
         'Access-Control-Max-Age' => 86400
