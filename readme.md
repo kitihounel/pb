@@ -18,6 +18,7 @@ to send to the Ministry of Health.
 - [Convert Request Parameters to Snake Case](#convert-request-parameters-to-snake-case)
 - [Convert API Requests and Responses to Camel Case](#convert-api-requests-and-responses-to-camel-case)
 - [Laravel Authentication: Under The Hood](#laravel-authentication-under-the-hood)
+- [Add Wildcard Route to Lumen](#add-wildcard-route-to-lumen)
 
 ## Database Driver
 
@@ -339,3 +340,7 @@ Although we did not use that in this project, it could be useful later. The aric
 
 A good article that explains how auth works in Laravel.
 https://medium.com/@mariowhowrites/laravel-authentication-under-the-hood-78064b5b89e6.
+
+## Add Wildcard Route to Lumen
+
+Read the following thread: https://laracasts.com/discuss/channels/lumen/lumen-routing-any.
