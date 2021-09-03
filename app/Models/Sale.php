@@ -26,6 +26,7 @@ class Sale extends Model
     ];
 
     protected $casts = [
+        'id' => 'string',
         'prescription_date' => 'date',
         'transaction_date' => 'date'
     ];

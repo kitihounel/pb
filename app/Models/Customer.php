@@ -22,6 +22,7 @@ class Customer extends Model
     ];
 
     protected $casts = [
+        'id' => 'string',
         'birth_year' => 'int'
     ];
 }

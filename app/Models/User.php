@@ -16,11 +16,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     /**
      * The attributes that are mass assignable.
      *
+     * Only admins are allowed to create users.
+     * So, there is no problem  making role attribute fillable.
+     *
      * @var array
      */
     protected $fillable = [
-        // Only admins are allowed to create users. So, there is no problem
-        // making role attribute fillable.
         'name',
         'role',
         'email',
@@ -37,6 +38,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'api_token',
         'created_at',
         'updated_at'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'string'
     ];
 
     /**
