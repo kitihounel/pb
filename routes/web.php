@@ -5,6 +5,47 @@
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
+/**
+ * This function activates support for CORS on the dev machine.
+ * 
+ * CORS is only used in dev mode since the frontend is in another repository.
+ * The frontend is an Angular app, which runs its dev server at http://localhost:4200.
+ * Since this is not the same origin as the backend, we need to support CORS.
+ * We also support CORS for the local production server which is accessed by the frontend.
+ *
+ * @param  \Laravel\Lumen\Routing\Router $router
+ */
+function addCorsSupportInDevMode($router) {
+    $request = request();
+    if (!app()->environment('local') && $request->ip() != '127.0.0.1')
+        return;
+
+    $router->options('/api/login', function() {
+        return (new Response('', 200))->withHeaders([
+            'Access-Control-Allow-Headers' => 'Content-Type',
+            'Access-Control-Allow-Methods' => 'POST',
+            'Access-Control-Max-Age' => 86400
+        ]);
+    });
+
+    $router->options('/api/user', function() {
+        return (new Response('', 200))->withHeaders([
+            'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
+            'Access-Control-Allow-Methods' => 'GET',
+            'Access-Control-Max-Age' => 86400,
+        ]);
+    });
+        
+    $router->options('/api/{route:.*}/', function($route) {
+        return (new Response('', 200))->withHeaders([
+            'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
+            'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
+            'Access-Control-Allow-Origin' => 'http://localhost:4200',
+            'Access-Control-Max-Age' => 86400
+        ]);
+    });
+}
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -59,28 +100,4 @@ $router->group(['prefix' => '/api'], function() use ($router) {
     $router->get('/user', 'Api\ProfileController@index');
 });
 
-$router->options('/api/login', function() {
-    return (new Response('', 200))->withHeaders([
-        'Access-Control-Allow-Headers' => 'Content-Type',
-        'Access-Control-Allow-Methods' => 'POST',
-        'Access-Control-Max-Age' => 86400
-    ]);
-});
-
-$router->options('/api/user', function() {
-    return (new Response('', 200))->withHeaders([
-        'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
-        'Access-Control-Allow-Methods' => 'GET',
-        'Access-Control-Max-Age' => 86400,
-    ]);
-});
-
-$router->options('/api/{route:.*}/', function($route) {
-    error_log('wildcard route' . $route, 0);
-    return (new Response('', 200))->withHeaders([
-        'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
-        'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
-        'Access-Control-Allow-Origin' => 'http://localhost:4200',
-        'Access-Control-Max-Age' => 86400
-    ]);
-});
+addCorsSupportInDevMode($router);
