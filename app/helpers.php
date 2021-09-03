@@ -53,5 +53,11 @@ function apiControllerIndex(Request $request, string $className, array $options)
     }
     $paginator = $instance->paginate();
 
-    return toCamelKeys($paginator->toArray());
+    return [
+        'data' => $paginator->items(),
+        'currentPage' => $paginator->currentPage(),
+        'lastPage' => $paginator->lastPage(),
+        'from' => $paginator->firstItem(),
+        'to' => $paginator->lastItem()
+    ];
 }
