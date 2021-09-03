@@ -16,8 +16,8 @@ use Illuminate\Http\Response;
  * @param  \Laravel\Lumen\Routing\Router $router
  */
 function addCorsSupportInDevMode($router) {
-    $request = request();
-    if (!app()->environment('local') && $request->ip() != '127.0.0.1')
+    $ip = $_SERVER['REMOTE_ADDR'];
+    if ($ip != '127.0.0.1')
         return;
 
     $router->options('/api/login', function() {

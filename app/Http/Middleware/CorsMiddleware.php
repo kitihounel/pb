@@ -16,8 +16,8 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
         $response = $next($request);
-        $ip = $request->ip();
-        if (!app()->environment('local') && $ip != '127.0.0.1')
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if ($ip != '127.0.0.1')
             return $response;
 
         $origin = $request->header('Origin');
