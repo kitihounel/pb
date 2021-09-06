@@ -46,8 +46,9 @@ class UserController extends Controller
         $user->password = Hash::make($validated['password']);
         $user->api_token = Str::random(User::tokenLength());
         $user->save();
+        $location = route('users.show', ['user' => $user->id]);
 
-        return response($user, 201);
+        return response($user, 201)->header('Location', $location);
     }
 
     /**

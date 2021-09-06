@@ -45,7 +45,6 @@ class SaleController extends Controller
     {
         $validated = $request->validated();
         $sale = null;
-        $done = false;
 
         try {
             DB::transaction(function() use (&$validated, &$sale) {
@@ -54,12 +53,16 @@ class SaleController extends Controller
                     'quantity' => $validated['drug']['quantity']
                 ]);
             });
-            $done = true;
         } catch (\Throwable $th) {
             $sale = null;
         }
 
-        return response()->json($sale, $done ? 201: 500);
+        if ($sale) {
+            $location = route('sales.show', ['sale' => $sale->id]);
+            return response($sale, 201)->header('Location', $location);
+        }
+        
+        return response('', 500);
     }
 
     /**

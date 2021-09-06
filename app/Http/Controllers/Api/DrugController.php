@@ -38,8 +38,9 @@ class DrugController extends Controller
     {
         $validated = $request->validated();
         $drug = Drug::create($validated);
+        $location = route('drugs.show', ['drug' => $drug->id]);
 
-        return response($drug, 201);
+        return response($drug, 201)->header('Location', $location);
     }
 
     /**

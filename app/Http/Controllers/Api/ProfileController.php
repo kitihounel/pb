@@ -24,8 +24,8 @@ class ProfileController extends Controller
         $user = $request->user();
         $attributes = $user->attributesToArray();
         $data = array_merge(
-            Arr::except($attributes, 'id'),
-            array('token' => $user->api_token)
+            $attributes,
+            ['token' => $user->api_token]
         );
 
         return response($data, 200);

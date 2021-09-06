@@ -15,29 +15,30 @@ use Illuminate\Http\Response;
  *
  * @param  \Laravel\Lumen\Routing\Router $router
  */
-function addCorsSupportInDevMode($router) {
+function addCorsSupportInDevMode($router)
+{
     $ip = $_SERVER['REMOTE_ADDR'];
     if ($ip != '127.0.0.1')
         return;
 
-    $router->options('/api/login', function() {
-        return (new Response('', 200))->withHeaders([
+    $router->options('/api/login', function () {
+        return response('', 200)->withHeaders([
             'Access-Control-Allow-Headers' => 'Content-Type',
             'Access-Control-Allow-Methods' => 'POST',
             'Access-Control-Max-Age' => 86400
         ]);
     });
 
-    $router->options('/api/user', function() {
-        return (new Response('', 200))->withHeaders([
+    $router->options('/api/user', function () {
+        return response('', 200)->withHeaders([
             'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
             'Access-Control-Allow-Methods' => 'GET',
             'Access-Control-Max-Age' => 86400,
         ]);
     });
-        
-    $router->options('/api/{route:.*}/', function($route) {
-        return (new Response('', 200))->withHeaders([
+
+    $router->options('/api/{route:.*}/', function () {
+        return response('', 200)->withHeaders([
             'Access-Control-Allow-Headers' => 'Authorization, Content-Type',
             'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE',
             'Access-Control-Allow-Origin' => 'http://localhost:4200',
@@ -57,47 +58,142 @@ function addCorsSupportInDevMode($router) {
 |
 */
 
-$router->get('/', function () use ($router) {
+$router->get('/', function () use (&$router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' => '/api'], function() use ($router) {
-    $router->post('/login', 'Api\LoginController@login');
+$router->group(['prefix' => '/api'], function () use (&$router) {
+    /*
+    |----------------------------------------------------------------------
+    | Login route
+    |----------------------------------------------------------------------
+    */
+    $router->post('/login', [
+        'as' => 'login', 'uses' => 'Api\LoginController@login'
+    ]);
 
-    $router->get('/doctors',                'Api\DoctorController@index');
-    $router->get('/doctors/{doctor}',       'Api\DoctorController@show');
-    $router->post('/doctors',               'Api\DoctorController@store');
-    $router->put('/doctors/{doctor}',       'Api\DoctorController@update');
-    $router->delete('/doctors/{doctor}',    'Api\DoctorController@destroy');
+    /*
+    |----------------------------------------------------------------------
+    | Doctor routes
+    |----------------------------------------------------------------------
+    */
+    $router->get('/doctors', [
+        'as' => 'doctors.index', 'uses' => 'Api\DoctorController@index'
+    ]);
+    $router->get('/doctors/{doctor}', [
+        'as' => 'doctors.show', 'uses' => 'Api\DoctorController@show'
+    ]);
+    $router->post('/doctors', [
+        'as' => 'doctors.store', 'uses' => 'Api\DoctorController@store'
+    ]);
+    $router->put('/doctors/{doctor}', [
+        'as' => 'doctors.update', 'uses' => 'Api\DoctorController@update'
+    ]);
+    $router->delete('/doctors/{doctor}', [
+        'as' => 'doctors.delete', 'uses' => 'Api\DoctorController@destroy'
+    ]);
 
-    $router->get('/drugs',              'Api\DrugController@index');
-    $router->post('/drugs',             'Api\DrugController@store');
-    $router->get('/drugs/{drug}',       'Api\DrugController@show');
-    $router->put('/drugs/{drug}',       'Api\DrugController@update');
-    $router->delete('/drugs/{drug}',    'Api\DrugController@destroy');
+    /*
+    |----------------------------------------------------------------------
+    | Drug routes
+    |----------------------------------------------------------------------
+    */
+    $router->get('/drugs', [
+        'as' => 'drugs.index', 'uses' => 'Api\DrugController@index'
+    ]);
+    $router->post('/drugs', [
+        'as' => 'drugs.store', 'uses' => 'Api\DrugController@store'
+    ]);
+    $router->get('/drugs/{drug}', [
+        'as' => 'drugs.show', 'uses' => 'Api\DrugController@show'
+    ]);
+    $router->put('/drugs/{drug}', [
+        'as' => 'drugs.update', 'uses' => 'Api\DrugController@update'
+    ]);
+    $router->delete('/drugs/{drug}', [
+        'as' => 'drugs.delete', 'uses' => 'Api\DrugController@destroy'
+    ]);
 
-    $router->get('/customers',                  'Api\CustomerController@index');
-    $router->post('/customers',                 'Api\CustomerController@store');
-    $router->get('/customers/{customer}',       'Api\CustomerController@show');
-    $router->put('/customers/{customer}',       'Api\CustomerController@update');
-    $router->delete('/customers/{customer}',    'Api\CustomerController@destroy');
+    /*
+    |----------------------------------------------------------------------
+    | Customer routes
+    |----------------------------------------------------------------------
+    */
+    $router->get('/customers', [
+        'as' => 'customers.index', 'uses' => 'Api\CustomerController@index'
+    ]);
+    $router->post('/customers', [
+        'as' => 'customers.store', 'uses' => 'Api\CustomerController@store'
+    ]);
+    $router->get('/customers/{customer}', [
+        'as' => 'customers.show', 'uses' => 'Api\CustomerController@show'
+    ]);
+    $router->put('/customers/{customer}', [
+        'as' => 'customers.update', 'uses' => 'Api\CustomerController@update'
+    ]);
+    $router->delete('/customers/{customer}', [
+        'as' => 'customers.delete', 'uses' => 'Api\CustomerController@destroy'
+    ]);
 
-    $router->get('/sales',                      'Api\SaleController@index');
-    $router->post('/sales',                     'Api\SaleController@store');
-    $router->get('/sales/{sale}',               'Api\SaleController@show');
-    $router->put('/sales/{sale}',               'Api\SaleController@update');
-    $router->delete('/sales/{sale}',            'Api\SaleController@destroy');
-    $router->post('/sales/{sale}/add-drug',     'Api\SaleController@addItem');
-    $router->post('/sales/{sale}/remove-drug',  'Api\SaleController@removeItem');
-    $router->get('/sales-review',               'Api\SaleController@salesReview');
+    /*
+    |----------------------------------------------------------------------
+    | Sale routes
+    |----------------------------------------------------------------------
+    */
+    $router->get('/sales', [
+        'as' => 'sales.index', 'uses' => 'Api\SaleController@index'
+    ]);
+    $router->post('/sales', [
+        'as' => 'sales.store', 'uses' => 'Api\SaleController@store'
+    ]);
+    $router->get('/sales/{sale}', [
+        'as' => 'sales.show', 'uses' => 'Api\SaleController@show'
+    ]);
+    $router->put('/sales/{sale}', [
+        'as' => 'sales.update', 'uses' => 'Api\SaleController@update'
+    ]);
+    $router->delete('/sales/{sale}', [
+        'as' => 'sales.delete', 'uses' => 'Api\SaleController@destroy'
+    ]);
+    $router->post('/sales/{sale}/add-drug', [
+        'as' => 'sales.add-drug', 'uses' => 'Api\SaleController@addItem'
+    ]);
+    $router->post('/sales/{sale}/remove-drug', [
+        'as' => 'sales.remove-drug', 'uses' => 'Api\SaleController@removeItem'
+    ]);
+    $router->get('/sales-review', [
+        'as' => 'sales.review', 'uses' => 'Api\SaleController@salesReview'
+    ]);
 
-    $router->get('/users',             'Api\UserController@index');
-    $router->post('/users',            'Api\UserController@store');
-    $router->get('/users/{user}',      'Api\UserController@show');
-    $router->put('/users/{user}',      'Api\UserController@update');
-    $router->delete('/users/{user}',   'Api\UserController@destroy');
+    /*
+    |----------------------------------------------------------------------
+    | User routes
+    |----------------------------------------------------------------------
+    */
+    $router->get('/users', [
+        'as' => 'users.index', 'uses' => 'Api\UserController@index'
+    ]);
+    $router->post('/users', [
+        'as' => 'users.store', 'uses' => 'Api\UserController@store'
+    ]);
+    $router->get('/users/{user}', [
+        'as' => 'users.show', 'uses' => 'Api\UserController@show'
+    ]);
+    $router->put('/users/{user}', [
+        'as' => 'users.update', 'uses' => 'Api\UserController@update'
+    ]);
+    $router->delete('/users/{user}', [
+        'as' => 'users.delete', 'uses' => 'Api\UserController@destroy'
+    ]);
 
-    $router->get('/user', 'Api\ProfileController@index');
+    /*
+    |----------------------------------------------------------------------
+    | Profile
+    |----------------------------------------------------------------------
+    */
+    $router->get('/user', [
+        'as' => 'profile', 'uses' => 'Api\ProfileController@index'
+    ]);
 });
 
 addCorsSupportInDevMode($router);

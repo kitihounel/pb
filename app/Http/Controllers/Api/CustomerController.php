@@ -37,11 +37,10 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $validated = $request->validated();
+        $customer = Customer::create($validated);
+        $location = route('customers.show', ['customer' => $customer->id]);
 
-        return response(
-            Customer::create($validated),
-            201
-        );
+        return response($customer, 201)->header('Location', $location);
     }
 
     /**

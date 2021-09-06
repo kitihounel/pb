@@ -20,12 +20,11 @@ class LoginController extends Controller
         $validated = $request->validated();
         $user = User::where('username', $validated['username'])->first();
         if ($user && Hash::check($validated['password'], $user->password)) {
-            return response()->json([
-                'name' => $user->name,
-                'username' => $user->username,
-                'role' => $user->role,
-                'token' => $user->api_token
-            ], 200);
+            $userInfo = array_merge(
+                $user->attributesToArray(),
+                ['token' => $user->api_token]
+            ) ;
+            return response()->json($userInfo, 200);
         }
 
         return response('', 401);

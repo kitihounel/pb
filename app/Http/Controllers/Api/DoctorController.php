@@ -39,8 +39,9 @@ class DoctorController extends Controller
     {
         $validated = $request->validated();
         $doctor = Doctor::create($validated);
+        $location = route('doctors.show', ['doctor' => $doctor->id]);
 
-        return response($doctor, 201);
+        return response($doctor, 201)->header('Location', $location);
     }
 
     /**
