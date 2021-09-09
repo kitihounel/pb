@@ -19,6 +19,7 @@ to send to the Ministry of Health.
 - [Convert API Requests and Responses to Camel Case](#convert-api-requests-and-responses-to-camel-case)
 - [Laravel Authentication: Under The Hood](#laravel-authentication-under-the-hood)
 - [Add Wildcard Route to Lumen](#add-wildcard-route-to-lumen)
+- [About POST and PUT](#about-post-and-put)
 
 ## Database Driver
 
@@ -344,3 +345,8 @@ https://medium.com/@mariowhowrites/laravel-authentication-under-the-hood-78064b5
 ## Add Wildcard Route to Lumen
 
 Read the following thread: https://laracasts.com/discuss/channels/lumen/lumen-routing-any.
+
+## About Post and Put
+
+Great article about post and put verbs in HTTP. It also contains some advices about REST APIs.
+https://blog.engineering.publicissapient.fr/2014/03/17/post-vs-put-la-confusion/.
