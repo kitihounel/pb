@@ -17,8 +17,8 @@ class CreateDoctorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('speciality');
-            $table->string('number')->unique();
-            $table->string('contact');
+            $table->string('med_council_id')->unique();
+            $table->string('phone_number');
             $table->timestamps();
         });
     }

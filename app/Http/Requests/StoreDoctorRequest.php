@@ -26,13 +26,26 @@ class StoreDoctorRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'speciality' => ['required', 'string', 'max:255'],
-            'number' => [
+            'med_council_id' => [
                 'required',
                 'string',
                 'max:255',
-                'unique:doctors,number'
+                'unique:doctors,med_council_id'
             ],
-            'contact' => ['required', 'string', 'max:255']
+            'phone_number' => ['required', 'string', 'max:255']
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    protected function attributes():  array
+    {
+        return [
+            'med_council_id' => 'medical council ID',
+            'phone_number' => 'phone_number'
         ];
     }
 }

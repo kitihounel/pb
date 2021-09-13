@@ -17,26 +17,26 @@ class DoctorSeeder extends Seeder
         Doctor::create([
             'name' => 'Greg House',
             'speciality' => 'Funny diseases',
-            'number' => '521-85-54',
-            'contact' => '745 985 85 24',
+            'med_council_id' => 'MC/LN/521',
+            'phone_number' => '+229 66 62 13 54',
         ]);
         Doctor::create([
             'name' => 'Henry Jekyll',
             'speciality' => 'Unknown',
-            'number' => '070-123-789',
-            'contact' => '722 741 74 52',
+            'med_council_id' => 'MC/LN/527',
+            'phone_number' => '+229 66 62 13 54',
         ]);
         Doctor::create([
             'name' => 'Dr Strange',
             'speciality' => 'Chirurgy',
-            'number' => '074-173-789',
-            'contact' => '722 001 78 71',
+            'med_council_id' => 'MC/LN/789',
+            'phone_number' => '+229 66 62 13 54',
         ]);
         Doctor::create([
             'name' => 'Dr Ponytail',
             'speciality' => 'Pediatry',
-            'number' => '025-98-965-6',
-            'contact' => '12 74 874 522',
+            'med_council_id' => 'MC/LN/965',
+            'phone_number' => '+229 66 62 13 54',
         ]);
     }
 }
